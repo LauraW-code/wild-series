@@ -1,0 +1,12 @@
+@import "~bootstrap/scss/bootstrap";
+
+$primary: #D6B991;
+
+body {
+    background-color: rgb(244, 244, 244);
+}
+
+.navbar {
+    background-color: $primary !important;
+}
+
