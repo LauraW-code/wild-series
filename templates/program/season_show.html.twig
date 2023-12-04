@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Série #{{ program.id }}{% endblock %}
+
+{% block body %}
+
+
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{program.title}}
+  <small class="text-body-secondary">Season {{season.number}}</small></h5>
+    <p class="card-text">{{season.description}}</p>
+  </div>
+  <ul class="list-group list-group-flush">
+  {% for episode in season.episodes %}
+    <a href="#">
+    <li class="list-group-item">{{episode.number}} {{episode.title}}</li>
+    </a>
+  {% endfor %}
+  </ul>
+  
+</div>
+
+{% endblock %}
