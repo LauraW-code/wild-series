@@ -10,6 +10,8 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
+    
+
     const PROGRAM = [
         ['title' => 'Game Of Thrones', 'synopsis' => 'Récit épique de la conquête du monde de Westeros', 'category' => 'category_Aventure', 'country' => 'Etats-Unis', 'year' => '2011'],
         ['title' => 'Walking Dead', 'synopsis' => 'Des zombies envahissent la Terre', 'category' => 'category_Horreur', 'country' => 'Etats-Unis', 'year' => '2010'],
@@ -20,17 +22,23 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
+        
+        $i = 0;
         foreach(self::PROGRAM as $programData) {
-        $program = new Program();
-        $program->setTitle($programData['title']);
-        $program->setSynopsis($programData['synopsis']);
-        $program->setCategory($this->getReference($programData['category']));
-        $program->setCountry($programData['country']);
-        $program->setYear($programData['year']);
-        $manager->persist($program);
-        $replaced = str_replace(' ', '', $program->getTitle());
-        $this->addReference('program_' . $replaced, $program);
-        }
+            
+                $program = new Program();
+                $program->setTitle($programData['title']);
+                $program->setSynopsis($programData['synopsis']);
+                $program->setCategory($this->getReference($programData['category']));
+                $program->setCountry($programData['country']);
+                $program->setYear($programData['year']);
+
+                $this->addReference('program_' . $i , $program);
+                $manager->persist($program);
+                
+                $i++;
+                
+            }
 
         $manager->flush();
     }
