@@ -16,8 +16,8 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create();
 
         $i = 0;
-        
         while($i <= 4) {
+
             $e = 1;
             while($e <= 5){
                 
@@ -29,10 +29,10 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
                     $episode->setSynopsis($faker->paragraph(3));
                     $manager->persist($episode);
                     }
+
                 $e++;
                 }
-                $i++;
-                
+            $i++;      
         }    
         $manager->flush();
     }

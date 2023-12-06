@@ -10,15 +10,9 @@
   <div class="card-body">
     <h5 class="card-title">{{program.title}}
   <small class="text-body-secondary">Season {{season.number}}</small></h5>
-    <p class="card-text">{{season.description}}</p>
+  <h4>{{episode.number}}. {{episode.title}}</h4>
+    <p class="card-text">{{episode.synopsis}}</p>
   </div>
-  <ul class="list-group list-group-flush">
-  {% for episode in season.episodes %}
-    <a href="{{ path("program_episode_show", { program: program.id, season: season.id, episode: episode.id }) }}">
-    <li class="list-group-item">{{episode.number}} {{episode.title}}</li>
-    </a>
-  {% endfor %}
-  </ul>
   
 </div>
 
