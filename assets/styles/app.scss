@@ -1,6 +1,8 @@
 @import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Marvel&family=Slackey&display=swap');
 
 $primary: #D6B991;
+
 
 body {
     background-color: rgb(244, 244, 244);
@@ -8,5 +10,11 @@ body {
 
 .navbar {
     background-color: $primary !important;
+    font-family: marvel;
+    font-size: 1.5rem;
 }
 
+.navbar-brand {
+    font-family: slackey;
+    font-size: 2rem;
+}
