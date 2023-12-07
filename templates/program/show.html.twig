@@ -3,14 +3,15 @@
 {% block title %}Série #{{ program.id }}{% endblock %}
 
 {% block body %}
+<dic class="container">
     <div class="media">
-        <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+        <img class="align-self-start mr-3" src="{{ asset(program.poster) }}" height="300" alt="{{ program.title }} poster">
         <div class="media-body">
             <h1 class="mt-0">{{ program.title }}</h1>
             <p>{{ program.synopsis }}</p>
             <p>Catégorie : {{ program.category.name }}</p>
-            <ul> {% for season in program.seasons %}
-            <a href="{{ path("program_season_show", { season: season.id, program: program.id }) }}"><li>Season {{season.number}}</li></a>
+            <ul class="list-group"> {% for season in program.seasons %}
+            <a href="{{ path("program_season_show", { season: season.id, program: program.id }) }}"><li class="text-decoration-none">Season {{season.number}}</li></a>
             {% endfor %}
             </ul>
         </div>
@@ -19,4 +20,5 @@
     <a href="{{ path('program_index') }}">
         Retour à la liste des programmes
     </a>
+    </div>
 {% endblock %}
