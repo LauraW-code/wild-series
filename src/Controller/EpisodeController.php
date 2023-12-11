@@ -33,6 +33,9 @@ class EpisodeController extends AbstractController
             $entityManager->persist($episode);
             $entityManager->flush();
 
+            //Once the form is submitted, valid and the data is inserted in database, you can edit the success message
+            $this->addFlash('success', 'Le nouvel épisode a bien été créée');
+
             return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -59,6 +62,9 @@ class EpisodeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            //Once the form is submitted, valid and the data is inserted in database, you can edit the success message
+            $this->addFlash('success', 'L\'épisode a bien été modifié');
+
             return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -74,6 +80,9 @@ class EpisodeController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$episode->getId(), $request->request->get('_token'))) {
             $entityManager->remove($episode);
             $entityManager->flush();
+
+            //Once the form is submitted, valid and the data is inserted in database, you can edit the success message
+            $this->addFlash('danger', 'L\'épisode a bien été supprimé');
         }
 
         return $this->redirectToRoute('app_episode_index', [], Response::HTTP_SEE_OTHER);

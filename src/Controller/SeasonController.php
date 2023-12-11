@@ -25,13 +25,19 @@ class SeasonController extends AbstractController
     #[Route('/new', name: 'app_season_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        //Create a new Season object
         $season = new Season();
+        //Create the form
         $form = $this->createForm(SeasonType::class, $season);
         $form->handleRequest($request);
 
+        //Verify the form is submitted and the data is Valid, insert in database
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($season);
             $entityManager->flush();
+
+            //Once the form is submitted, valid and the data is inserted in database, you can edit the success message
+            $this->addFlash('success', 'La nouvelle saison a bien été créée');
 
             return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -59,6 +65,9 @@ class SeasonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            //Once the form is submitted, valid and the data is inserted in database, you can edit the success message
+            $this->addFlash('success', 'La saison a bien été modifiée');
+
             return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -74,6 +83,9 @@ class SeasonController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$season->getId(), $request->request->get('_token'))) {
             $entityManager->remove($season);
             $entityManager->flush();
+
+            //Once the form is submitted, valid and the data is deleted in database, you can edit the success message
+            $this->addFlash('danger', 'La saison a bien été supprimée');
         }
 
         return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);

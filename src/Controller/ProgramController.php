@@ -41,6 +41,9 @@ class ProgramController extends AbstractController
             $entityManager->persist($program);
             $entityManager->flush();
 
+            //Once the form is submitted, valid and the data is inserted in database, you can edit the success message
+            $this->addFlash('success', 'Le nouveau programme a bien été crée');
+
             //Redirect to programs list
             return $this->redirectToRoute('program_index');
         }
