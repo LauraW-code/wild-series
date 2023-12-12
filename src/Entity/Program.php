@@ -23,15 +23,16 @@ class Program
     #[Assert\Title]
     #[Assert\NotBlank(message:'Le titre est obligatoire')] 
     #[Assert\Length(max:255, maxMessage:'La catégorie saisie {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères')]
+    #[Assert\Regex(
+        pattern: '/plus belle la vie/i',
+        match: false,
+        message: 'On parle de vraies séries ici',
+    )]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank(message:'Le synopsis est obligatoire')]
-    #[Assert\Regex(
-        pattern: '/plus belle la vie/',
-        match: false,
-        message: 'On parle de vraies séries ici',
-    )]
+    
     private ?string $synopsis = null;
 
     #[ORM\Column(length: 255, nullable: true)]
