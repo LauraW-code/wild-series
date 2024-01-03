@@ -14,7 +14,7 @@
   </div>
   <ul class="list-group list-group-flush">
   {% for episode in season.episodes %}
-    <a href="{{ path("program_episode_show", { program: program.id, season: season.id, episode: episode.id }) }}">
+    <a href="{{ path("program_episode_show", { slug: program.slug, season_number: season.number, episode_title: episode.title }) }}">
     <li class="list-group-item">{{episode.number}} {{episode.title}}</li>
     </a>
   {% endfor %}

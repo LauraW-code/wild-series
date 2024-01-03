@@ -6,11 +6,17 @@ use App\Entity\Program;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
-    
+    private SluggerInterface $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
 
     const PROGRAM = [
         ['title' => 'Game Of Thrones', 'synopsis' => 'Récit épique de la conquête du monde de Westeros', 'category' => 'category_Aventure', 'country' => 'Etats-Unis', 'year' => '2011', 'poster' => 'build/images/game_of_thrones.jpg'],
@@ -33,6 +39,9 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
                 $program->setCountry($programData['country']);
                 $program->setYear($programData['year']);
                 $program->setPoster($programData['poster']);
+
+                $slug = $this->slugger->slug($program->getTitle());
+                $program->setSlug($slug);
 
                 $this->addReference('program_' . $i , $program);
                 $manager->persist($program);

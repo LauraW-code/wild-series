@@ -10,8 +10,9 @@
             <h1 class="mt-0">{{ program.title }}</h1>
             <p>{{ program.synopsis }}</p>
             <p>Catégorie : {{ program.category.name }}</p>
+            <p>Durée de visionnage : {{ programDuration }}</p>
             <ul class="list-group"> {% for season in program.seasons %}
-            <a href="{{ path("program_season_show", { season: season.id, program: program.id }) }}"><li class="text-decoration-none">Season {{season.number}}</li></a>
+            <a href="{{ path("program_season_show", { season_number: season.number, slug: program.slug }) }}"><li class="text-decoration-none">Season {{season.number}}</li></a>
             {% endfor %}
             </ul>
             <strong>Acteurs :</strong>
