@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 #[Route('/episode')]
 class EpisodeController extends AbstractController
@@ -24,7 +26,7 @@ class EpisodeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_episode_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, MailerInterface $mailer): Response
     {
         $episode = new Episode();
         $form = $this->createForm(EpisodeType::class, $episode);
@@ -35,6 +37,15 @@ class EpisodeController extends AbstractController
             $episode->setSlug($slug);
             $entityManager->persist($episode);
             $entityManager->flush();
+
+            //Sends an email when a new episode is posted on wildSeries
+            $season = $episode->getSeason();
+            $program = $season->getProgram();
+            $email = (new Email())
+            ->from($this->getParameter('mailer_from'))
+            ->to('laura.wolff@live.fr')
+            ->subject('Nouvel épisode sur WildSeries')
+            ->html($this->renderView('episode/newEpisodeEmail.html.twig', ['episode' => $episode, 'program' => $program, 'season' => $season]));
 
             //Once the form is submitted, valid and the data is inserted in database, you can edit the success message
             $this->addFlash('success', 'Le nouvel épisode a bien été créée');

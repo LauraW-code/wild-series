@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
 use App\Entity\Program;
@@ -16,6 +18,7 @@ use App\Form\ProgramType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\ProgramDuration;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+
 
 #[Route('/program', name:'program_')]
 class ProgramController extends AbstractController
@@ -29,7 +32,7 @@ class ProgramController extends AbstractController
 
     //Add a new program
     #[Route('/new', name:'new')]
-    public function newProgram(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    public function newProgram(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, MailerInterface $mailer)
     {
         //Create a new Program object
         $program = new Program();
@@ -45,6 +48,15 @@ class ProgramController extends AbstractController
             $program->setSlug($slug);
             $entityManager->persist($program);
             $entityManager->flush();
+
+            //Sends an email to inform users a new program was added
+            $email = (new Email())
+            ->from($this->getParameter('mailer_from'))
+            ->to('laura.wolff@live.fr')
+            ->subject('Nouveau programme ajouté!')
+            ->html($this->renderView('program/newProgramEmail.html.twig', ['program' => $program]));
+
+            $mailer->send($email);
 
             //Once the form is submitted, valid and the data is inserted in database, you can edit the success message
             $this->addFlash('success', 'Le nouveau programme a bien été crée');

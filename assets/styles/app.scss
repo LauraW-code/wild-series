@@ -3,6 +3,9 @@
 
 $primary: #D6B991;
 
+:root{
+    --bs-body-font-family: marvel;
+}
 
 body {
     background-color: rgb(244, 244, 244);
@@ -17,4 +20,8 @@ body {
 .navbar-brand {
     font-family: slackey;
     font-size: 2rem;
+}
+
+h1 {
+    font-family: Anton !important;
 }
