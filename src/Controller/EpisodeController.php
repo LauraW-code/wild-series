@@ -47,6 +47,8 @@ class EpisodeController extends AbstractController
             ->subject('Nouvel épisode sur WildSeries')
             ->html($this->renderView('episode/newEpisodeEmail.html.twig', ['episode' => $episode, 'program' => $program, 'season' => $season]));
 
+            $mailer->send($email);
+            
             //Once the form is submitted, valid and the data is inserted in database, you can edit the success message
             $this->addFlash('success', 'Le nouvel épisode a bien été créée');
 
